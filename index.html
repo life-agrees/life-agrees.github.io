@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Prince Ndukwe — Full-Stack AI & Web3 Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0F;
+    --bg2: #111118;
+    --bg3: #16161F;
+    --accent: #6C47FF;
+    --accent2: #9B7AFF;
+    --accent-glow: rgba(108,71,255,0.15);
+    --white: #F0EFF8;
+    --muted: #7A798A;
+    --border: rgba(255,255,255,0.07);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 13px; font-family: var(--font-body);
+    color: var(--muted); text-decoration: none;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .glow-blob {
+    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(108,71,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px; color: var(--accent2);
+    letter-spacing: 0.1em; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 32px; height: 1px; background: var(--accent);
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .hero-name .accent { color: var(--accent2); }
+
+  .terminal-line {
+    font-family: var(--font-mono);
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--muted);
+    margin-bottom: 48px;
+    min-height: 28px;
+  }
+  .terminal-line .prompt { color: var(--accent); margin-right: 8px; }
+  .cursor {
+    display: inline-block; width: 2px; height: 1.1em;
+    background: var(--accent2); vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 6px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 0 24px rgba(108,71,255,0.3);
+  }
+  .btn-primary:hover { background: var(--accent2); box-shadow: 0 0 32px rgba(108,71,255,0.5); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--white);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent2); transform: translateY(-1px); }
+
+  /* SECTIONS */
+  section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--accent); letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; max-width: 60px;
+    height: 1px; background: var(--accent);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600; line-height: 1.2;
+    letter-spacing: -0.02em; margin-bottom: 20px;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: start; margin-top: 40px;
+  }
+  .about-text { font-size: 16px; color: #B0AFBF; line-height: 1.8; }
+  .about-text p + p { margin-top: 16px; }
+
+  .stack-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .stack-item {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--accent2); letter-spacing: 0.04em;
+    transition: border-color 0.2s;
+  }
+  .stack-item:hover { border-color: var(--accent); }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin-top: 48px;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 32px;
+    transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .project-card:hover { border-color: rgba(108,71,255,0.3); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-card.featured {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;
+  }
+
+  .project-tag {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--accent); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 12px;
+    background: var(--accent-glow); border: 1px solid rgba(108,71,255,0.2);
+    display: inline-block; padding: 3px 10px; border-radius: 4px;
+  }
+
+  .project-name {
+    font-family: var(--font-display); font-size: 22px;
+    font-weight: 600; margin-bottom: 12px; color: var(--white);
+  }
+
+  .project-desc {
+    font-size: 14px; color: #8A89A0; line-height: 1.7; margin-bottom: 20px;
+  }
+
+  .project-bullets {
+    list-style: none; margin-bottom: 24px;
+  }
+  .project-bullets li {
+    font-size: 13px; color: #9A99B0; padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .project-bullets li::before { content: '→'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+
+  .project-links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .project-link {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--muted); text-decoration: none;
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 6px 12px; transition: all 0.2s;
+  }
+  .project-link:hover { color: var(--accent2); border-color: var(--accent); }
+
+  /* CONTACT */
+  #contact {
+    text-align: center; padding: 100px 48px;
+    border-top: 1px solid var(--border);
+    max-width: 100%;
+  }
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+  .contact-sub {
+    font-size: 16px; color: var(--muted); margin: 16px 0 40px;
+    line-height: 1.7;
+  }
+  .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 32px;
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--muted); border-top: 1px solid var(--border);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    #hero { padding: 100px 24px 60px; }
+    section { padding: 60px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: 1; display: block; }
+    .project-card.featured .project-right { margin-top: 24px; }
+    #contact { padding: 60px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">prince.ndukwe</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-top:120px;">
+  <div class="grid-overlay"></div>
+  <div class="glow-blob"></div>
+  <div style="position:relative; max-width:900px; margin:0 auto;">
+    <div class="hero-eyebrow">Available for remote roles</div>
+    <h1 class="hero-name">Prince<br/><span class="accent">Ndukwe</span></h1>
+    <div class="terminal-line">
+      <span class="prompt">$</span>
+      <span id="typed"></span><span class="cursor"></span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="mailto:Pndukwe824@gmail.com" class="btn btn-ghost">Get in Touch</a>
+      <a href="https://github.com/life-agrees" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">I build things that ship.</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a full-stack AI and Web3 engineer based in Nigeria. I don't wait for permission to build — I pick a hard problem, figure out the stack it needs, and ship something real.</p>
+      <p>Most of my best work has happened at the messy intersection of systems that weren't designed to work together: on-chain logic talking to cloud bots, AI pipelines handing off to automated outreach, backends keeping frontends honest in real time.</p>
+      <p>I care about ownership, reliability, and what happens when real data starts flowing through a system you built alone. That's where I've learned the most.</p>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;">Stack</div>
+      <div class="stack-grid">
+        <div class="stack-item">TypeScript / Node.js</div>
+        <div class="stack-item">Python / FastAPI</div>
+        <div class="stack-item">Solidity / Hardhat</div>
+        <div class="stack-item">React / Vite</div>
+        <div class="stack-item">LLM Integrations</div>
+        <div class="stack-item">Agentic Pipelines</div>
+        <div class="stack-item">Docker / CI/CD</div>
+        <div class="stack-item">Base / EVM Chains</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2 class="section-title">Things I've shipped.</h2>
+
+  <div class="projects-grid">
+
+    <!-- TrenchyBet FEATURED -->
+    <div class="project-card featured">
+      <div class="project-left">
+        <div class="project-tag">Web3 · DeFi · Production</div>
+        <div class="project-name">TrenchyBet</div>
+        <div class="project-desc">A decentralized prediction market built end-to-end on Base. Every layer — contracts, backend, frontend, and infrastructure — owned and shipped alone.</div>
+        <div class="project-links">
+          <a href="https://github.com/life-agrees" target="_blank" class="project-link">GitHub ↗</a>
+        </div>
+      </div>
+      <div class="project-right">
+        <ul class="project-bullets">
+          <li>Proxy-delegate Solidity architecture for upgradeable on-chain market logic</li>
+          <li>Cloud-deployed cron bot that creates and resolves markets automatically</li>
+          <li>Express admin API with live BotControlPanel dashboard</li>
+          <li>Supabase points and leaderboard system tied to on-chain outcomes</li>
+          <li>Debugged failures across contract, backend, and infra layers in production</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Lead Gen -->
+    <div class="project-card">
+      <div class="project-tag">AI · Agentic · SaaS</div>
+      <div class="project-name">Trovr — AI Lead Gen Platform</div>
+      <div class="project-desc">End-to-end agentic pipeline for Web3 founder outreach. Discovery, enrichment, ML scoring, automated sequences, and a management dashboard — all working as one reliable system.</div>
+      <ul class="project-bullets">
+        <li>Multi-stage pipeline with reliable component hand-offs</li>
+        <li>ML-based lead scoring model trained on Web3 project signals</li>
+        <li>Automated outreach sequencing with observability built in</li>
+        <li>Done-for-you service currently onboarding first clients</li>
+      </ul>
+      <div class="project-links">
+        <a href="https://github.com/life-agrees" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+    </div>
+
+    <!-- EthosX -->
+    <div class="project-card">
+      <div class="project-tag">ML · Real-Time · Dashboard</div>
+      <div class="project-name">EthosX Signal Dashboard</div>
+      <div class="project-desc">A real-time predictive signal dashboard for traders. React frontend, FastAPI backend, WebSocket streaming, and a reusable ML model-serving pipeline. Live in production.</div>
+      <ul class="project-bullets">
+        <li>WebSocket streaming for low-latency signal delivery</li>
+        <li>Reusable ML inference pipeline deployable across models</li>
+        <li>Live demo deployed on Fly.io</li>
+      </ul>
+      <div class="project-links">
+        <a href="https://ethosx-signal-dashboard.fly.dev/" target="_blank" class="project-link">Live Demo ↗</a>
+        <a href="https://github.com/life-agrees" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+    </div>
+
+    <!-- Monorail MCP -->
+    <div class="project-card">
+      <div class="project-tag">MCP · On-Chain · Monitoring</div>
+      <div class="project-name">Monorail MCP Server</div>
+      <div class="project-desc">An MCP server handling on-chain quote and trade calls with real-time failure monitoring, Slack/webhook alerting, and a live Streamlit dashboard for failed trade visualization.</div>
+      <ul class="project-bullets">
+        <li>MCP server for reliable agent-tool communication on-chain</li>
+        <li>Failure logging with automated Slack/webhook alerts</li>
+        <li>Real-time Streamlit dashboard streaming failed trades live</li>
+        <li>Explored Sybil-resistance mechanisms for on-chain integrity</li>
+      </ul>
+      <div class="project-links">
+        <a href="https://github.com/life-agrees" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center;">Contact</div>
+    <h2 class="section-title">Let's build something.</h2>
+    <p class="contact-sub">I'm open to remote roles, contracts, and interesting problems. If you're building something real and need someone who ships — reach out.</p>
+    <div class="contact-links">
+      <a href="mailto:Pndukwe824@gmail.com" class="btn btn-primary">Pndukwe824@gmail.com</a>
+      <a href="https://github.com/life-agrees" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Built by Prince Ndukwe · 2025
+</footer>
+
+<script>
+  const lines = [
+    "Full-Stack AI & Web3 Engineer",
+    "Production Systems Builder",
+    "Ships things that actually run."
+  ];
+  let lineIdx = 0, charIdx = 0, deleting = false;
+  const el = document.getElementById('typed');
+
+  function type() {
+    const current = lines[lineIdx];
+    if (!deleting) {
+      el.textContent = current.slice(0, ++charIdx);
+      if (charIdx === current.length) {
+        deleting = true;
+        setTimeout(type, 2000);
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, --charIdx);
+      if (charIdx === 0) {
+        deleting = false;
+        lineIdx = (lineIdx + 1) % lines.length;
+      }
+    }
+    setTimeout(type, deleting ? 40 : 80);
+  }
+  setTimeout(type, 800);
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.project-card, .about-grid, .stack-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
